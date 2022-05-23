@@ -2,6 +2,8 @@ var  asteroid,spaceship;
 var asteroidImg,spaceshipImg;
 var asteroidsGroup;
 var gameState=1;
+var life=1;
+var savethespaceship=0 ;
 
 function preload(){
   spaceshipImg=loadImage("spaceship.png");
@@ -15,11 +17,23 @@ function setup() {
   spaceship.addImage(spaceshipImg)
   spaceship.scale=0.2
 
-  asteroidsGroup = createGroup();   
+  asteroidsGroup = createGroup();  
+  
+  heading= createElement("h1");
+  heading= createElement("h1");
+
 }
 
 function draw() {
   background("#BDA297");  
+
+  heading.html("Life: "+life)
+  heading.style('color:red'); 
+  heading.position(150,20)
+
+  heading.html("Savethespaceship:"+savethespaceship)
+  heading.style('color:red'); 
+  heading.position(150,100)
 
   if(gameState===1){
     spaceship.x=mouseX  
@@ -30,6 +44,8 @@ if (frameCount % 80 === 0) {
 
     if(asteroidsGroup.collide(spaceship)){
       handleGameover(asteroidsGroup);
+      text("GAME OVER",400,400,250,250);
+
     }
 
 
@@ -39,7 +55,7 @@ if (frameCount % 80 === 0) {
 }
 
 function drawasteroids(){
-  asteroid = createSprite(20,random(20,780),40,40);
+  asteroid = createSprite(random(20,780),40,40,40);
   asteroid.addImage(asteroidImg);
   asteroid.scale = 0.5;
   asteroid.velocityY = 8;
@@ -48,5 +64,14 @@ function drawasteroids(){
 }
 
 function handleGameover(asteroidsGroup){
+  life=life-1
   asteroidsGroup.destroyEach();
-}
+  
+
+  if (life === 0) {
+    gameState=2
+  
+    
+  }
+  
+  }
